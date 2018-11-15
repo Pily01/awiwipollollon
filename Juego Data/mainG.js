@@ -44,6 +44,41 @@ var images = {
   dansometerH:"dansometerH.png",
 }
 
+  // # Songs sources
+var weWill = document.getElementById("weWill")
+var weWillAudio = document.createElement("audio")
+weWillAudio.src = "Queen- We will rock you con letra.mp3"
+
+var boogie = document.getElementById("boogie")
+var boogieAudio = document.createElement("audio")
+boogieAudio.src = "Earth, Wind & Fire - Boogie Wonderland.mp3"
+
+var gameOverAudio = document.createElement("audio")
+gameOverAudio.src = "adventure rock guitar outrro final drum game over logo.mp3"
+
+
+var containerPadre = document.getElementById("papa")
+
+boogie.addEventListener("click", function(){
+  boogieAudio.play()
+  boogie.style.display = "none"
+  weWill.style.display = "none"
+  containerPadre.style.display = "flex"
+})
+
+weWill.addEventListener("click", function(){
+  weWillAudio.play()
+  boogie.style.display = "none"
+  weWill.style.display = "none"
+  containerPadre.style.display = "flex"
+})
+
+var gameOverLogo = document.createElement("img")
+gameOverLogo.src = "gameOverLogo.png"
+
+
+
+
 /////-°°°°----------------------C L A S S E S -----------------------------------°°°°-/////
 
   //# DANCE FLOOR CLASS
@@ -204,7 +239,16 @@ function update(){
 }
 
   //# Game Over: clears interval and prints score on screen
-function gameOver(){}
+function gameOver(){
+    clearInterval(interval)
+    ctx.drawImage(gameOverLogo, 90, 60, 500, 450)
+
+    interval = null
+    weWillAudio.pause()
+    boogieAudio.pause()
+    gameOverAudio.play()
+
+}
 
   //# Widow on Load
 window.onload = function(){
@@ -241,38 +285,60 @@ window.onload = function(){
   function checkLetterCol(code){
     var currentLetter = letters[0]
     console.log("llamada")
-    console.log(code)
     switch(code){
       case 65:
       if(currentLetter.isTouching(arrow1)){
         score+= 2
-        
         arrow1.image.src="arrow1On.png"
-
-      } 
+      } else{
+        score-= 3
+        if(score < 0){
+          gameOver()
+        }
+      }
       return 
       case 83:
       if(currentLetter.isTouching(arrow2)){
         score+=2
         arrow2.image.src = "arrow2On.png"
+      } else{
+        score-= 3
+        if(score < 0){
+          gameOver()
+        }
       }
       return 
       case 68:
       if(currentLetter.isTouching(arrow3)){
         score+=2
         arrow3.image.src = "arrow3On.png"
+      }else{
+        score-= 3
+        if(score < 0){
+          gameOver()
+        }
       }
       return 
       case 70:
       if(currentLetter.isTouching(arrow4)){
         score+= 2
         arrow4.image.src = "arrow4On.png"
+      }else{
+        score-= 3
+        if(score < 0){
+          gameOver()
+        }
       }
       return  
       case 71:
       if(currentLetter.isTouching(arrow5)){
         score+= 2
         arrow5.image.src = "arrow5On.png"
+      }else{
+        score-= 3
+        if(score < 0){
+          gameOver()
+        }
       }
       return 
     }
@@ -284,8 +350,8 @@ window.onload = function(){
     ctx2.fillStyle = "white"
     ctx2.strokeStyle = 'black'
     ctx2.font = "bold 45px Arial"
-    ctx2.fillText("Score: " + score, 165, 170)
-    ctx2.strokeText('Score: ' + score, 165, 170)
+    ctx2.fillText("Score: " + score, 155, 170)
+    ctx2.strokeText('Score: ' + score, 155, 170)
   }
 
   
