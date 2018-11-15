@@ -10,7 +10,7 @@
 
 var canvas = document.getElementById("gameCanvas")
 var ctx = canvas.getContext("2d")
-var score = 0
+var score = 20
 
 var canvas2 = document.getElementById("dataCanvas")
 var ctx2 = canvas2.getContext("2d")
@@ -21,6 +21,12 @@ var ctx2 = canvas2.getContext("2d")
 var interval
 
 var frames = 0
+
+var gameOverLogo = document.createElement("img")
+gameOverLogo.src = "gameOverLogo.png"
+
+var youRockLogon = document.createElement("img")
+youRockLogon.src = "youRockLogo.png"
 
   // # Arrows Data
 var arrowsSrc = ["arrow1.png", "arrow2.png","arrow3.png","arrow4.png","arrow5.png"]
@@ -53,16 +59,20 @@ var boogie = document.getElementById("boogie")
 var boogieAudio = document.createElement("audio")
 boogieAudio.src = "Earth, Wind & Fire - Boogie Wonderland.mp3"
 
-var gameOverAudio = document.createElement("audio")
-gameOverAudio.src = "adventure rock guitar outrro final drum game over logo.mp3"
+var gameOvAudio = document.createElement("audio")
+gameOvAudio.src = "Gameover Sound Effect.mp3"
 
+var winnerAudio = document.createElement("audio")
+winnerAudio.src = "arcade-game-menu-music-loop-sound-effect-8-bit-style.mp3"
 
+var songMenu = document.getElementById("songMenu")
 var containerPadre = document.getElementById("papa")
 
 boogie.addEventListener("click", function(){
   boogieAudio.play()
   boogie.style.display = "none"
   weWill.style.display = "none"
+  songMenu.style.display = "none"
   containerPadre.style.display = "flex"
 })
 
@@ -70,11 +80,25 @@ weWill.addEventListener("click", function(){
   weWillAudio.play()
   boogie.style.display = "none"
   weWill.style.display = "none"
+  songMenu.style.display = "none"
   containerPadre.style.display = "flex"
 })
 
-var gameOverLogo = document.createElement("img")
-gameOverLogo.src = "gameOverLogo.png"
+weWillAudio.onended = function() {
+  clearInterval(interval)
+  ctx.drawImage(youRockLogon, 90, 60, 380, 480);
+  interval = null
+  winnerAudio.play()
+};
+
+boogieAudio.onended = function() {
+  clearInterval(interval)
+  ctx.drawImage(youRockLogon, 90, 60, 500, 450);
+  interval = null
+  winnerAudio.play();
+};
+
+
 
 
 
@@ -161,7 +185,7 @@ function Dancer(){
     }
   }
 
-  //# Speaker Score
+  //# SPEAKER SCORE CLASS
   function SpeakerScore(){
     DanceFloor.call(this)
     this.x = 10
@@ -176,12 +200,12 @@ function Dancer(){
 
   }
 
-  //# Dansometer
+  //# DANSOMETER CLASS
   function Dansometer(){
     DanceFloor.call(this)
-    this.x =100
+    this.x =10
     this.y =320
-    this.width=320
+    this.width=250
     this.height = 200
     this.image.src = images.dansometerM
     //Draw function: prints dansometer
@@ -189,6 +213,7 @@ function Dancer(){
       ctx2.drawImage(this.image, this.x, this.y, this.width, this.height)
     }
   }
+
 
 
 
@@ -246,7 +271,7 @@ function gameOver(){
     interval = null
     weWillAudio.pause()
     boogieAudio.pause()
-    gameOverAudio.play()
+    gameOvAudio.play()
 
 }
 
